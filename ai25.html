@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorer Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chatbot-container {
+      width: 400px;
+      max-width: 90%;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .chatbox {
+      padding: 20px;
+      height: 400px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chatbox p {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .user {
+      background: #0078ff;
+      color: #fff;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .bot {
+      background: #f0f0f0;
+      color: #000;
+    }
+
+    .chatbox img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .input-container {
+      display: flex;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .input-container button {
+      padding: 10px 15px;
+      background: #0078ff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .input-container button:hover {
+      background: #005bb5;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chatbot-container">
+  <div class="chatbox" id="chatbox">
+    <!-- Chat messages will appear here -->
+  </div>
+  <div class="input-container">
+    <input type="text" id="userInput" placeholder="Ask me something...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  const chatbox = document.getElementById("chatbox");
+
+  const responses = {
+    "hello": {
+      text: "Hi there! Ready to explore the world?",
+      image: "https://via.placeholder.com/300x200?text=Hello+World"
+    },
+    "mountain": {
+      text: "Here’s a beautiful mountain view!",
+      image: "https://via.placeholder.com/300x200?text=Mountain"
+    },
+    "ocean": {
+      text: "The ocean is vast and calming. Take a look!",
+      image: "https://via.placeholder.com/300x200?text=Ocean"
+    },
+    "forest": {
+      text: "Forests are full of mystery and life!",
+      image: "https://via.placeholder.com/300x200?text=Forest"
+    },
+    "goodbye": {
+      text: "Goodbye! Come back soon for more adventures!",
+      image: null
+    }
+  };
+
+  function sendMessage() {
+    const userInput = document.getElementById("userInput").value.trim().toLowerCase();
+    if (userInput === "") return;
+
+    // Add user message
+    addMessage(userInput, "user");
+
+    // Add bot response
+    if (responses[userInput]) {
+      const response = responses[userInput];
+      addMessage(response.text, "bot", response.image);
+    } else {
+      addMessage("I’m not sure about that. Try asking about mountains, oceans, or forests!", "bot");
+    }
+
+    document.getElementById("userInput").value = "";
+  }
+
+  function addMessage(text, sender, image = null) {
+    const messageElement = document.createElement("p");
+    messageElement.textContent = text;
+    messageElement.classList.add(sender);
+
+    if (sender === "bot" && image) {
+      const imageElement = document.createElement("img");
+      imageElement.src = image;
+      chatbox.appendChild(imageElement);
+    }
+
+    chatbox.appendChild(messageElement);
+    chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
+  }
+</script>
+
+</body>
+</html>
